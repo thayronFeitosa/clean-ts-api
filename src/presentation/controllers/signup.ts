@@ -5,7 +5,7 @@ import { IHttpRequest, IHttpResponse } from '../protocols/http'
 
 export class SignUpController {
   handle (httpRequest: IHttpRequest): IHttpResponse {
-    const requiresFildes = ['name', 'email', 'password']
+    const requiresFildes = ['name', 'email', 'password', 'password_confirmation']
 
     for (const field of requiresFildes) {
       if (!httpRequest.body[field]) {

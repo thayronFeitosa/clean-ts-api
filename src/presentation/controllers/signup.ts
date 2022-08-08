@@ -5,7 +5,7 @@ import { IHttpRequest, IHttpResponse } from '../protocols/http'
 
 export class SignUpController {
   handle (httpRequest: IHttpRequest): IHttpResponse {
-    const requiresFildes = ['name', 'email']
+    const requiresFildes = ['name', 'email', 'password']
 
     for (const field of requiresFildes) {
       if (!httpRequest.body[field]) {
@@ -14,7 +14,7 @@ export class SignUpController {
     }
     return {
       statusCode: 400,
-      body: new Error('Missing param: name')
+      body: true
     }
   }
 }

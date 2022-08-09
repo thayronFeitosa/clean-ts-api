@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { MissingParamError } from '../errors/missing-param-error'
 import { InvalidParamError } from '../errors/invalid-param-error'
-import { badRequest } from '../helpers/http-helper'
+import { badRequest, serverError } from '../helpers/http-helper'
 import { IController } from '../protocols/controller'
 import { IEmailValidator } from '../protocols/email-validator'
 import { IHttpRequest, IHttpResponse } from '../protocols/http'
-import { ServerError } from '../errors/server-error'
 
 export class SignUpController implements IController {
   private readonly emailValidator: IEmailValidator
@@ -32,11 +31,8 @@ export class SignUpController implements IController {
         statusCode: 400,
         body: true
       }
-    } catch {
-      return {
-        statusCode: 500,
-        body: new ServerError()
-      }
+    } catch (error) {
+      return serverError()
     }
   }
 }

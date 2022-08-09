@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAddAccount } from '../../domain/usecases/add-account'
-import { MissingParamError, InvalidParamError } from '../errors'
-import { badRequest, serverError } from '../helpers/http-helper'
-import { IController, IEmailValidator, IHttpRequest, IHttpResponse } from '../protocols'
+import { IAddAccount, IController, IEmailValidator, IHttpRequest, IHttpResponse } from './signup-protocols'
+import { MissingParamError, InvalidParamError } from '../../errors'
+import { badRequest, serverError } from '../../helpers/http-helper'
 
 export class SignUpController implements IController {
   private readonly emailValidator: IEmailValidator

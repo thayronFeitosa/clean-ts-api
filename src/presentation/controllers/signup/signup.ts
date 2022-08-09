@@ -37,7 +37,7 @@ export class SignUpController implements IController {
         password
       })
       return {
-        statusCode: 400,
+        statusCode: 200,
         body: account
       }
     } catch (error) {

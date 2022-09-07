@@ -1,0 +1,18 @@
+version: '3'
+services: 
+  mongo:
+    container_name: mongo_container
+    image: mongo:latest
+    restart: always
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - '27017:27017'
+    networks:
+      - clean-typescript-api
+ 
+networks:
+  clean-typescript-api:
+ 
+volumes:
+  mongodb:

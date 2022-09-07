@@ -1,2 +1,5 @@
 node_modules
 coverage
+.docker/mongo/.docker
+.docker/mongo/data
+.env

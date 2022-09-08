@@ -9,9 +9,6 @@ export class LogControllerDecorator implements IController {
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const httpResponse = await this.controller.handle(httpRequest)
-    if (httpRequest === 500) {
-
-    }
     return httpResponse
   }
 }

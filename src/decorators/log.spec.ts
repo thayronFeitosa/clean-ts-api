@@ -14,7 +14,6 @@ const makeController = (): IController => {
           name: 'thayron'
         },
         statusCode: 200
-
       }
       return await new Promise<IHttpResponse>((resolve) => resolve(httpResponse))
     }

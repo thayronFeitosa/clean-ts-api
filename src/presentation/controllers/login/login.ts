@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { IAuthentication, IEmailValidator, IHttpRequest, IHttpResponse, IController } from './login-protocols'
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
+import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helper'
 
 export class LoginController implements IController {
   private readonly emailValidator: IEmailValidator
@@ -32,10 +32,7 @@ export class LoginController implements IController {
       if (!accessToken) {
         return unauthorized()
       }
-      return {
-        body: 'ok',
-        statusCode: 200
-      }
+      return ok({ accessToken })
     } catch (error) {
       return serverError(error)
     }

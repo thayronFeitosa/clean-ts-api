@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAuthentication } from '../../../../domain/usecases/authentication'
-import { InvalidParamError, MissingParamError } from '../../../errors'
-import { badRequest, serverError, unauthorized } from '../../../helpers/http-helper'
-import { IHttpRequest, IHttpResponse, IController, IEmailValidator } from '../../../protocols'
+import { IAuthentication } from '../../../domain/usecases/authentication'
+import { InvalidParamError, MissingParamError } from '../../errors'
+import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
+import { IHttpRequest, IHttpResponse, IController, IEmailValidator } from '../../protocols'
 
 export class LoginController implements IController {
   private readonly emailValidator: IEmailValidator

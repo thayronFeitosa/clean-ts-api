@@ -1,7 +1,7 @@
-import { IAuthentication } from '../../../../domain/usecases/authentication'
-import { InvalidParamError, MissingParamError } from '../../../errors'
-import { badRequest, serverError, unauthorized } from '../../../helpers/http-helper'
-import { IEmailValidator, IHttpRequest } from '../signup-protocols'
+import { IAuthentication } from '../../../domain/usecases/authentication'
+import { InvalidParamError, MissingParamError } from '../../errors'
+import { badRequest, serverError, unauthorized } from '../../helpers/http-helper'
+import { IEmailValidator, IHttpRequest } from '../signup/signup-protocols'
 import { LoginController } from './login'
 
 const makeEmailValidator = (): IEmailValidator => {

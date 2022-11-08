@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { InvalidParamError, MissingParamError } from '../../../errors'
-import { badRequest } from '../../../helpers/http-helper'
+import { badRequest, serverError } from '../../../helpers/http-helper'
 import { IHttpRequest, IHttpResponse, IController, IEmailValidator } from '../../../protocols'
 
 export class LoginController implements IController {
@@ -10,22 +10,26 @@ export class LoginController implements IController {
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    const { email, password } = httpRequest.body
-    if (!email) {
-      return await new Promise((resolve) => resolve(badRequest(new MissingParamError('email'))))
-    }
+    try {
+      const { email, password } = httpRequest.body
+      if (!email) {
+        return await new Promise((resolve) => resolve(badRequest(new MissingParamError('email'))))
+      }
 
-    if (!password) {
-      return await new Promise((resolve) => resolve(badRequest(new MissingParamError('password'))))
-    }
-    const isValid = this.emailValidator.isValid(email)
+      if (!password) {
+        return await new Promise((resolve) => resolve(badRequest(new MissingParamError('password'))))
+      }
+      const isValid = this.emailValidator.isValid(email)
 
-    if (!isValid) {
-      return await new Promise((resolve) => resolve(badRequest(new InvalidParamError('email'))))
-    }
-    return {
-      body: 'ok',
-      statusCode: 200
+      if (!isValid) {
+        return await new Promise((resolve) => resolve(badRequest(new InvalidParamError('email'))))
+      }
+      return {
+        body: 'ok',
+        statusCode: 200
+      }
+    } catch (error) {
+      return serverError(error)
     }
   }
 }

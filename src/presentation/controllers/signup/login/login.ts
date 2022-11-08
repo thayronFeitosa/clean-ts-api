@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { IAuthentication } from '../../../../domain/usecases/authentication'
 import { InvalidParamError, MissingParamError } from '../../../errors'
-import { badRequest, serverError } from '../../../helpers/http-helper'
+import { badRequest, serverError, unauthorized } from '../../../helpers/http-helper'
 import { IHttpRequest, IHttpResponse, IController, IEmailValidator } from '../../../protocols'
 
 export class LoginController implements IController {
@@ -28,7 +28,11 @@ export class LoginController implements IController {
         return await new Promise((resolve) => resolve(badRequest(new InvalidParamError('email'))))
       }
 
-      await this.authentication.auth(email, password)
+      const accessToken = await this.authentication.auth(email, password)
+
+      if (!accessToken) {
+        return unauthorized()
+      }
       return {
         body: 'ok',
         statusCode: 200

@@ -14,14 +14,14 @@ export class LoginController implements IController {
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const { email, password } = httpRequest.body
-      if (!email) {
-        return await new Promise((resolve) => resolve(badRequest(new MissingParamError('email'))))
-      }
+      const requiresFields = ['email', 'password']
 
-      if (!password) {
-        return await new Promise((resolve) => resolve(badRequest(new MissingParamError('password'))))
+      for (const field of requiresFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new MissingParamError(field))
+        }
       }
+      const { email, password } = httpRequest.body
       const isValid = this.emailValidator.isValid(email)
 
       if (!isValid) {

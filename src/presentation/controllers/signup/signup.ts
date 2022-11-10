@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { IAddAccount, IController, IEmailValidator, IHttpRequest, IHttpResponse, IValidation } from './signup-protocols'
-import { MissingParamError, InvalidParamError } from '../../errors'
+import { InvalidParamError } from '../../errors'
 import { badRequest, ok, serverError } from '../../helpers/http-helper'
 
 export class SignUpController implements IController {
@@ -21,13 +21,6 @@ export class SignUpController implements IController {
         return badRequest(error)
       }
 
-      const requiresFields = ['name', 'email', 'password', 'passwordConfirmation']
-
-      for (const field of requiresFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
-      }
       const { password, passwordConfirmation, email, name } = httpRequest.body
 
       if (password !== passwordConfirmation) {

@@ -1,15 +1,12 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAddAccount, IController, IEmailValidator, IHttpRequest, IHttpResponse, IValidation } from './signup-protocols'
-import { InvalidParamError } from '../../errors'
+import { IAddAccount, IController, IHttpRequest, IHttpResponse, IValidation } from './signup-protocols'
 import { badRequest, ok, serverError } from '../../helpers/http-helper'
 
 export class SignUpController implements IController {
-  private readonly emailValidator: IEmailValidator
   private readonly addAccount: IAddAccount
   private readonly validation: IValidation
 
-  constructor (emailValidator: IEmailValidator, addAccount: IAddAccount, validation: IValidation) {
-    this.emailValidator = emailValidator
+  constructor (addAccount: IAddAccount, validation: IValidation) {
     this.addAccount = addAccount
     this.validation = validation
   }
@@ -22,10 +19,6 @@ export class SignUpController implements IController {
       }
 
       const { password, email, name } = httpRequest.body
-
-      const isValid = this.emailValidator.isValid(email)
-
-      if (!isValid) return badRequest(new InvalidParamError('email'))
 
       const account = await this.addAccount.add({
         email,

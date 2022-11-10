@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { InvalidParamError } from '../../errors'
 import { IValidation } from './IValidation'
@@ -11,7 +12,7 @@ export class CompareFieldValidation implements IValidation {
   }
 
   validate (input: any): Error | null {
-    if (input[this.filedName] !== !input[this.fieldToCompareName]) {
+    if (input[this.filedName] !== input[this.fieldToCompareName]) {
       return new InvalidParamError(this.fieldToCompareName)
     }
     return null

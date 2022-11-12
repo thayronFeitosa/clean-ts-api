@@ -1,32 +1,23 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAuthentication, IEmailValidator, IHttpRequest, IHttpResponse, IController } from './login-protocols'
-import { InvalidParamError, MissingParamError } from '../../errors'
+import { IAuthentication, IHttpRequest, IHttpResponse, IController, IValidation } from './login-protocols'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helper'
 
 export class LoginController implements IController {
-  private readonly emailValidator: IEmailValidator
+  private readonly validation: IValidation
   private readonly authentication: IAuthentication
-  constructor (emailValidator: IEmailValidator, authentication: IAuthentication) {
-    this.emailValidator = emailValidator
+  constructor (authentication: IAuthentication, validation: IValidation) {
+    this.validation = validation
     this.authentication = authentication
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const requiresFields = ['email', 'password']
-
-      for (const field of requiresFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
       }
+
       const { email, password } = httpRequest.body
-      const isValid = this.emailValidator.isValid(email)
-
-      if (!isValid) {
-        return await new Promise((resolve) => resolve(badRequest(new InvalidParamError('email'))))
-      }
-
       const accessToken = await this.authentication.auth(email, password)
 
       if (!accessToken) {

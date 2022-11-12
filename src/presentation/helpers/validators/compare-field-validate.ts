@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { InvalidParamError } from '../../errors'
-import { IValidation } from './IValidation'
+import { IValidation } from '../../protocols/IValidation'
 
 export class CompareFieldValidation implements IValidation {
   private readonly filedName: string

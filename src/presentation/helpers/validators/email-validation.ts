@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { InvalidParamError } from '../../errors'
 import { IEmailValidator } from '../../protocols'
-import { IValidation } from './IValidation'
+import { IValidation } from '../../protocols/IValidation'
 
 export class EmailValidation implements IValidation {
   private readonly filedName: string

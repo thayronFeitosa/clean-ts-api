@@ -1,7 +1,7 @@
 import { IController, IHttpRequest, IHttpResponse } from '../../presentation/protocols'
 import { LogControllerDecorator } from './log'
 import { serverError, ok } from '../../presentation/helpers/http-helper'
-import { ILogErrorRepository } from '../../data/protocols/log-error-respository'
+import { ILogErrorRepository } from '../../data/protocols/db/log-error-respository'
 import { IAccountModel } from '../../domain/models/account'
 const makeLogErrorRepositoryStub = (): ILogErrorRepository => {
   class LogErrorRepositoryStub implements ILogErrorRepository {

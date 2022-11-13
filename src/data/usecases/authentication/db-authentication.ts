@@ -8,9 +8,9 @@ export class DbAuthentication implements IAuthentication {
     this.loadAccountBYEnailRepository = loadAccountBYEnailRepository
   }
 
-  async auth (authentication: IAuthenticationModel): Promise<string | undefined> {
+  async auth (authentication: IAuthenticationModel): Promise<string | null> {
     await this.loadAccountBYEnailRepository.load(authentication.email)
 
-    return undefined
+    return null
   }
 }

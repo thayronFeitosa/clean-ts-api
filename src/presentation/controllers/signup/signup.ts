@@ -1,35 +1,24 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAddAccount, IController, IEmailValidator, IHttpRequest, IHttpResponse } from './signup-protocols'
-import { MissingParamError, InvalidParamError } from '../../errors'
+import { IAddAccount, IController, IHttpRequest, IHttpResponse, IValidation } from './signup-protocols'
 import { badRequest, ok, serverError } from '../../helpers/http-helper'
 
 export class SignUpController implements IController {
-  private readonly emailValidator: IEmailValidator
   private readonly addAccount: IAddAccount
+  private readonly validation: IValidation
 
-  constructor (emailValidator: IEmailValidator, addAccount: IAddAccount) {
-    this.emailValidator = emailValidator
+  constructor (addAccount: IAddAccount, validation: IValidation) {
     this.addAccount = addAccount
+    this.validation = validation
   }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      const requiresFields = ['name', 'email', 'password', 'passwordConfirmation']
-
-      for (const field of requiresFields) {
-        if (!httpRequest.body[field]) {
-          return badRequest(new MissingParamError(field))
-        }
-      }
-      const { password, passwordConfirmation, email, name } = httpRequest.body
-
-      if (password !== passwordConfirmation) {
-        return badRequest(new InvalidParamError('passwordConfirmation'))
+      const error = this.validation.validate(httpRequest.body)
+      if (error) {
+        return badRequest(error)
       }
 
-      const isValid = this.emailValidator.isValid(email)
-
-      if (!isValid) return badRequest(new InvalidParamError('email'))
+      const { password, email, name } = httpRequest.body
 
       const account = await this.addAccount.add({
         email,

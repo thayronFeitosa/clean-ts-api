@@ -4,10 +4,10 @@ import { IEmailValidator } from '../../protocols'
 import { IValidation } from '../../protocols/IValidation'
 
 export class EmailValidation implements IValidation {
-  private readonly filedName: string
-  private readonly emailValidator: IEmailValidator
-
-  constructor (filedName: string, emailValidator: IEmailValidator) {
+  constructor (
+    private readonly filedName: string,
+    private readonly emailValidator: IEmailValidator
+  ) {
     this.filedName = filedName
     this.emailValidator = emailValidator
   }

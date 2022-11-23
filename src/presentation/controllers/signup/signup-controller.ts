@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAddAccount, IController, IHttpRequest, IHttpResponse, IValidation } from './signup-protocols'
+import { IAddAccount, IController, IHttpRequest, IHttpResponse, IValidation } from './signup-controller-protocols'
 import { badRequest, ok, serverError } from '../../helpers/http-helper'
 
 export class SignUpController implements IController {
-  private readonly addAccount: IAddAccount
-  private readonly validation: IValidation
-
-  constructor (addAccount: IAddAccount, validation: IValidation) {
+  constructor (
+    private readonly addAccount: IAddAccount,
+    private readonly validation: IValidation
+  ) {
     this.addAccount = addAccount
     this.validation = validation
   }

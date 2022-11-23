@@ -1,29 +1,24 @@
-import { IAuthenticationModel, IHashCompare, ILoadAccountBYEnailRepository, ITokenGenerator, IUpdateAccessTokenRepository, IAuthentication } from './db-authentication-protocols'
+import { IAuthenticationModel, IHashCompare, ILoadAccountBYEnailRepository, IEncrypter, IUpdateAccessTokenRepository, IAuthentication } from './db-authentication-protocols'
 export class DbAuthentication implements IAuthentication {
-  private readonly loadAccountBYEnailRepository: ILoadAccountBYEnailRepository
-  private readonly hashCompare: IHashCompare
-  private readonly tokenGenerator: ITokenGenerator
-  private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
-
   constructor (
-    loadAccountBYEnailRepository: ILoadAccountBYEnailRepository,
-    hashCompare: IHashCompare,
-    tokenGenerator: ITokenGenerator,
-    updateAccessTokenRepository: IUpdateAccessTokenRepository
+    private readonly loadAccountBYEnailRepository: ILoadAccountBYEnailRepository,
+    private readonly hashCompare: IHashCompare,
+    private readonly encrypter: IEncrypter,
+    private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
   ) {
     this.loadAccountBYEnailRepository = loadAccountBYEnailRepository
     this.hashCompare = hashCompare
-    this.tokenGenerator = tokenGenerator
+    this.encrypter = encrypter
     this.updateAccessTokenRepository = updateAccessTokenRepository
   }
 
   async auth (authentication: IAuthenticationModel): Promise<string | null> {
-    const account = await this.loadAccountBYEnailRepository.load(authentication.email)
+    const account = await this.loadAccountBYEnailRepository.loadByEmail(authentication.email)
     if (account != null) {
       const compareIsValid = await this.hashCompare.compare(authentication.password, account.password)
       if (compareIsValid) {
-        const accessToken = await this.tokenGenerator.generate(account.id)
-        await this.updateAccessTokenRepository.update(account.id, accessToken)
+        const accessToken = await this.encrypter.encrypt(account.id)
+        await this.updateAccessTokenRepository.updateAccessToken(account.id, accessToken)
         return accessToken
       }
     }

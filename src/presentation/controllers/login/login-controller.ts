@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAuthentication, IHttpRequest, IHttpResponse, IController, IValidation } from './login-protocols'
+import { IAuthentication, IHttpRequest, IHttpResponse, IController, IValidation } from './login-controller-protocols'
 import { badRequest, ok, serverError, unauthorized } from '../../helpers/http-helper'
 
 export class LoginController implements IController {
-  private readonly validation: IValidation
-  private readonly authentication: IAuthentication
-  constructor (authentication: IAuthentication, validation: IValidation) {
+  constructor (private readonly authentication: IAuthentication, private readonly validation: IValidation) {
     this.validation = validation
     this.authentication = authentication
   }

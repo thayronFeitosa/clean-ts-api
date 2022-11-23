@@ -3,8 +3,7 @@ import { MissingParamError } from '../../errors'
 import { IValidation } from '../../protocols/IValidation'
 
 export class RequiredFieldValidation implements IValidation {
-  private readonly filedName: string
-  constructor (filedName: string) {
+  constructor (private readonly filedName: string) {
     this.filedName = filedName
   }
 

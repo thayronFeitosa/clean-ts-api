@@ -3,3 +3,4 @@ coverage
 .docker/mongo/.docker
 .docker/mongo/data
 .env
+dist

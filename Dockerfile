@@ -6,6 +6,4 @@ RUN npm install --omit=dev --legacy-peer-deps
 
 COPY ./dist ./dist
 
-EXPOSE 5000
-
 CMD npm start

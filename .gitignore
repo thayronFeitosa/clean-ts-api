@@ -4,3 +4,4 @@ coverage
 .docker/mongo/data
 .env
 dist
+/data

@@ -5,7 +5,7 @@ services:
     image: node:18
     working_dir: /usr/src/clean-typescript-api
     restart: always
-    command: bash -c "yarn install --only=prod && yarn start"
+    command: bash -c "yarn install --only=prod && yarn debug"
     environment:
       - PORT=5050
       - MONGO_URL=mongodb://mongo:27017/clean-typescript-api

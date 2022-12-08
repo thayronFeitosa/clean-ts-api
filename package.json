@@ -6,14 +6,13 @@
   "scripts": {
     "start": "node dist/main/server.js",
     "build": "rimraf dist && tsc",
-    "debug": "node --inspect=0.0.0.0:9222 --nolazy dist/main/server.js",
-    "up": "npm run build && docker-compose up -d",
+    "debug": "nodemon -L --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/main/server.js",
+    "up": "npm run build && docker-compose up",
     "down": "docker-compose down",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand --force-exit",
-    "test:verbose": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test:verbose": "jest --passWithNoTests --runInBand",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
     "test:integration": "npm test -- --watch -c jest-integration-config.js",
-    "pre-commit": "lint-staged -c .lintstagedrc.json",
     "test:staged": "npm test -- --findRelatedTests",
     "test:ci": "npm test -- --coverage"
   },
@@ -51,9 +50,10 @@
     "express": "^4.18.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.1",
+    "nodemon": "^2.0.20",
     "validator": "^13.7.0"
   },
   "engines": {
-    "node": "18.x"
+    "node": "16.x"
   }
 }

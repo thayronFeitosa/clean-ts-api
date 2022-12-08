@@ -2,7 +2,7 @@ version: '3'
 services:
   api:
     container_name: api_container
-    image: node:18
+    image: node:16
     working_dir: /usr/src/clean-typescript-api
     restart: always
     command: bash -c "yarn install --only=prod && yarn debug"

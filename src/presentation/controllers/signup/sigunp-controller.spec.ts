@@ -1,7 +1,7 @@
 import { IAccountModel, IAddAccount, IAddAccountModel, IHttpRequest, IValidation, IAuthentication, IAuthenticationModel } from './signup-controller-protocols'
 import { MissingParamError, ServerError } from '../../errors'
 import { SignUpController } from './signup-controller'
-import { ok, badRequest } from '../../helpers/http-helper'
+import { ok, badRequest, serverError } from '../../helpers/http-helper'
 
 const makeAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
@@ -126,5 +126,14 @@ describe('SignUp Controller', () => {
     expect(isValid).toHaveBeenCalledWith({
       email: 'any_email@mail.com', password: 'any_password'
     })
+  })
+
+  test('Should return 500 if Authentication throws', async () => {
+    const { sut, authenticationStub } = makeSut()
+    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+
+    const httpResponse = await sut.handle(makeFakeRequest())
+
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })

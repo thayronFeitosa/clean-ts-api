@@ -6,6 +6,11 @@ export const badRequest = (error: Error): IHttpResponse => ({
   statusCode: 400
 })
 
+export const forbidden = (error: Error): IHttpResponse => ({
+  body: error,
+  statusCode: 401
+})
+
 export const unauthorized = (): IHttpResponse => ({
   statusCode: 401,
   body: new UnauthorizedError()

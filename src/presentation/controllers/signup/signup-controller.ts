@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { IAddAccount, IController, IHttpRequest, IHttpResponse, IValidation, IAuthentication } from './signup-controller-protocols'
-import { badRequest, ok, serverError } from '../../helpers/http-helper'
+import { badRequest, forbidden, ok, serverError } from '../../helpers/http-helper'
+import { EmailInUseError } from '../../errors'
 
 export class SignUpController implements IController {
   constructor (
@@ -22,11 +23,15 @@ export class SignUpController implements IController {
 
       const { password, email, name } = httpRequest.body
 
-      await this.addAccount.add({
+      const account = await this.addAccount.add({
         email,
         name,
         password
       })
+
+      if (!account) {
+        return forbidden(new EmailInUseError())
+      }
 
       const accessToken = await this.authentication.auth({
         email,

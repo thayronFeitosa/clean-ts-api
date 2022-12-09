@@ -23,9 +23,8 @@ const makeAddAccountRepository = (): IAddAccountRepository => {
 
 const makeLoadAccountByEmailRepository = (): ILoadAccountBYEnailRepository => {
   class LoadAccountBYEnailRepositoryStub implements ILoadAccountBYEnailRepository {
-    async loadByEmail (email: string): Promise<IAccountModel> {
-      const account = makeFakeAccount()
-      return await new Promise<IAccountModel>((resolve) => resolve(account))
+    async loadByEmail (email: string): Promise<IAccountModel | null> {
+      return await new Promise<IAccountModel | null>((resolve) => resolve(null))
     }
   }
   return new LoadAccountBYEnailRepositoryStub()
@@ -108,6 +107,13 @@ describe('DbAddAccount Usecase', () => {
     const account = await sut.add(makeFaceAccountData())
 
     expect(account).toEqual(makeFakeAccount())
+  })
+
+  test('Should return null if LoadAccountBYEnailRepository not return null', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut()
+    const loadSpy = jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockReturnValueOnce(new Promise((resolve) => resolve(makeFakeAccount())))
+    await sut.add(makeFaceAccountData())
+    expect(loadSpy).toHaveBeenCalledWith('valid_email@mail.com')
   })
 
   test('Should call LoadAccountBYEnailRepository with correct email', async () => {

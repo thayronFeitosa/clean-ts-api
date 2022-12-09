@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { InvalidParamError } from '../../errors'
-import { IEmailValidator } from '../../protocols'
-import { IValidation } from '../../protocols/IValidation'
+import { InvalidParamError } from '../../presentation/errors'
+import { IEmailValidator } from '../protocols/email-validator'
+import { IValidation } from '../../presentation/protocols/IValidation'
 
 export class EmailValidation implements IValidation {
   constructor (

@@ -10,7 +10,7 @@ import {
 
 const makeFakeAccount = (): IAccountModel => ({
   id: 'any_id',
-  name: 'any)name',
+  name: 'any_name',
   email: 'any_mail@mail.com',
   password: 'hashed_password'
 

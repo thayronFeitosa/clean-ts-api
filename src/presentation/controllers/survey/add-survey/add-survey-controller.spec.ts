@@ -11,18 +11,34 @@ const makeFakeRequest = (): IHttpRequest => ({
   }
 })
 
+const makeValidation = (): IValidation => {
+  class ValidationStub implements IValidation {
+    validate (input: any): Error | null {
+      return null
+    }
+  }
+  return new ValidationStub()
+}
+
+interface ISutTypes {
+  validationStub: IValidation
+  sut: AddSurveyController
+}
+
+const makeSut = (): ISutTypes => {
+  const validationStub = makeValidation()
+  const sut = new AddSurveyController(validationStub)
+  return {
+    validationStub,
+    sut
+  }
+}
+
 describe('AddSUrvey Controller', () => {
   test('Should call Validation with correct values', async () => {
-    class ValidationStub implements IValidation {
-      validate (input: any): Error | null {
-        return null
-      }
-    }
-    const validationStub = new ValidationStub()
+    const { sut, validationStub } = makeSut()
     const validateSpy = jest.spyOn(validationStub, 'validate')
-    const sut = new AddSurveyController(validationStub)
     const httpRequest = makeFakeRequest()
-
     await sut.handle(httpRequest)
 
     expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)

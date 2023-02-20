@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { IAddAccount, IController, IHttpRequest, IHttpResponse, IValidation, IAuthentication } from './signup-controller-protocols'
-import { badRequest, forbidden, ok, serverError } from '../../helpers/http-helper'
-import { EmailInUseError } from '../../errors'
+import { badRequest, forbidden, ok, serverError } from '../../../helpers/http-helper'
+import { EmailInUseError } from '../../../errors'
 
 export class SignUpController implements IController {
   constructor (

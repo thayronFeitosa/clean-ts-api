@@ -1,16 +1,23 @@
 import { badRequest } from '../../../helpers/http-helper'
-import { IController, IHttpRequest, IHttpResponse, IValidation } from './add-survey-protocols'
+import { IController, IHttpRequest, IHttpResponse, IValidation, IAddSurvey } from './add-survey-protocols'
 
 export class AddSurveyController implements IController {
   constructor (
-    private readonly validation: IValidation
-  ) {}
+    private readonly validation: IValidation,
+    private readonly addSurvey: IAddSurvey
+  ) { }
 
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const error = this.validation.validate(httpRequest.body)
     if (error) {
       return badRequest(error)
     }
-    return await new Promise<IHttpResponse>((resolve, reject) => resolve(null))
+
+    const { question, answers } = httpRequest.body
+    await this.addSurvey.add({
+      answers,
+      question
+    })
+    return null
   }
 }

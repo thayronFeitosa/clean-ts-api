@@ -20,7 +20,7 @@ const makeFakeRequest = (): IHttpRequest => ({
 
 const makeLoadAccountByToken = (): ILoadAccountByToken => {
   class LoadAccountByTokenStub implements ILoadAccountByToken {
-    async load (accessToken: string, role?: string | undefined): Promise<IAccountModel> {
+    async load (accessToken: string, role?: string | undefined): Promise<IAccountModel | null> {
       return await new Promise<IAccountModel>((resolve, reject) => resolve(makeFakeAccount()))
     }
   }
@@ -50,10 +50,15 @@ describe('Auth Middleware', () => {
 
   test('Should call LoadAccountByToken with correct accessToken', async () => {
     const { sut, loadAccountByTokenStub } = makeSut()
-
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load')
-
     await sut.handle(makeFakeRequest())
     expect(loadSpy).toHaveBeenCalledWith('any_token')
+  })
+
+  test('Should return 403 if LoadAccountBuToken returns null', async () => {
+    const { sut, loadAccountByTokenStub } = makeSut()
+    jest.spyOn(loadAccountByTokenStub, 'load').mockReturnValueOnce(new Promise(resolve => resolve(null)))
+    const httpRequest = await sut.handle(makeFakeRequest())
+    expect(httpRequest).toEqual(forbidden(new AccessDeniedError()))
   })
 })

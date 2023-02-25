@@ -1,9 +1,7 @@
 import { AccessDeniedError } from '../errors'
 import { forbidden, ok, serverError } from '../helpers/http-helper'
 import { AuthMiddleware } from './auth-middleware'
-import { ILoadAccountByToken } from '../../domain/usecases/load-account-by-token'
-import { IAccountModel } from '../../domain/models/account'
-import { IHttpRequest } from '../protocols'
+import { ILoadAccountByToken, IHttpRequest, IAccountModel } from './auth-middleware-protocols'
 
 const makeFakeAccount = (): IAccountModel => ({
   id: 'valid_id',

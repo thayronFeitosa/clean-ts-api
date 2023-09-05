@@ -4,13 +4,18 @@ import { ILoadAccountByTokenRepository } from '../../protocols/db/account/load-a
 import { IAccountModel } from '../add-account/db-add-account-protocols'
 
 export class DbLoadAccountByToken implements ILoadAccountByToken {
-  constructor (private readonly decrypter: IDecrypter, private readonly loadAccountByTokenRepositoryStub: ILoadAccountByTokenRepository) {}
-  async load (accessToken: string, role?: string): Promise<IAccountModel | null> {
-    const token = await this.decrypter.decrypt(accessToken)
+  constructor (
+    private readonly decrypter: IDecrypter,
+    private readonly loadAccountByTokenRepository: ILoadAccountByTokenRepository
+  ) {}
 
+  async load (accessToken: string, role?: string): Promise<IAccountModel> {
+    const token = await this.decrypter.decrypt(accessToken)
     if (token) {
-      const account = await this.loadAccountByTokenRepositoryStub.loadByToken(token, role)
-      if (account) return account
+      const account = await this.loadAccountByTokenRepository.loadByToken(accessToken, role)
+      if (account) {
+        return account
+      }
     }
     return null
   }

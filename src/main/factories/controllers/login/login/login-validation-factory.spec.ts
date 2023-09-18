@@ -1,6 +1,6 @@
-import { IEmailValidator, RequiredFieldValidation, ValidationComposite } from '../../../../validation/validators'
-import { EmailValidation } from '../../../../validation/validators/email-validation'
-import { IValidation } from '../../../../presentation/protocols/IValidation'
+import { IEmailValidator, RequiredFieldValidation, ValidationComposite } from '../../../../../validation/validators'
+import { EmailValidation } from '../../../../../validation/validators/email-validation'
+import { IValidation } from '../../../../../presentation/protocols/IValidation'
 import { makeLoginValidation } from './login-validation-factory'
 
 const makeEmailValidator = (): IEmailValidator => {
@@ -12,7 +12,7 @@ const makeEmailValidator = (): IEmailValidator => {
   return new EmailValidatorStub()
 }
 
-jest.mock('../../../../validation/validators/validation-composite')
+jest.mock('../../../../../validation/validators/validation-composite')
 describe('LoginValidation Factory', () => {
   test('Should call ValidationComposite with all validations', () => {
     makeLoginValidation()

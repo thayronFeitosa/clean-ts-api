@@ -8,7 +8,7 @@ export const badRequest = (error: Error): IHttpResponse => ({
 
 export const forbidden = (error: Error): IHttpResponse => ({
   body: error,
-  statusCode: 401
+  statusCode: 403
 })
 
 export const unauthorized = (): IHttpResponse => ({

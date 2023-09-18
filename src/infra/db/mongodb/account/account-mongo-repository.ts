@@ -34,7 +34,12 @@ export class AccountMongoRepository implements IAddAccountRepository, ILoadAccou
     const accountCollection = await MongoHelper.getCollection('accounts')
     const account: Promise<IAccountModel | null> = await accountCollection.findOne({
       accessToken: token,
-      role
+      $or: [{
+        role
+      }, {
+        role: 'admin'
+      }]
+
     })
     return account !== null ? MongoHelper.map(account) : null
   }

@@ -1,4 +1,4 @@
-import { ok, serverError } from '../../../helpers/http-helper'
+import { noContent, ok, serverError } from '../../../helpers/http-helper'
 import { IController, IHttpRequest, IHttpResponse, ILoadSurveys } from './load-surveys-protocols'
 
 export class LoadSurveysController implements IController {
@@ -6,7 +6,7 @@ export class LoadSurveysController implements IController {
   async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const surveys = await this.loadSurveys.load()
-      return ok(surveys)
+      return surveys.length ? ok(surveys) : noContent()
     } catch (error) {
       return serverError(error)
     }

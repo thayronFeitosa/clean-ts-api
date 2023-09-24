@@ -1,6 +1,6 @@
 import request from 'supertest'
-import app from '../config/app'
-
+import app from '@/main/config/app'
+// /home/thayron/projects/estudos/nodejs/ttteste/clean-ts-api/src.ts
 describe('Content Type Middleware', () => {
   test('should return default content type as json', async () => {
     app.get('/test_content_type', (request, response) => {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { MissingParamError } from '../../presentation/errors'
-import { IValidation } from '../../presentation/protocols/IValidation'
+import { MissingParamError } from '@/presentation/errors'
+import { IValidation } from '@/presentation/protocols/IValidation'
 
 export class RequiredFieldValidation implements IValidation {
   constructor (private readonly filedName: string) {

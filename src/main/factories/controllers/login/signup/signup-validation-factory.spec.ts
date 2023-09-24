@@ -1,6 +1,6 @@
-import { IValidation } from '../../../../../presentation/protocols/IValidation'
-import { CompareFieldValidation, IEmailValidator, RequiredFieldValidation, ValidationComposite } from '../../../../../validation/validators'
-import { EmailValidation } from '../../../../../validation/validators/email-validation'
+import { IValidation } from '@/presentation/protocols/IValidation'
+import { CompareFieldValidation, IEmailValidator, RequiredFieldValidation, ValidationComposite } from '@/validation/validators'
+import { EmailValidation } from '@/validation/validators/email-validation'
 import { makeSignUpValidation } from './signup-validation-factory'
 
 const makeEmailValidator = (): IEmailValidator => {

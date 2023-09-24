@@ -1,4 +1,3 @@
-
 import { DbAddAccount } from './db-add-account'
 import { IAccountModel, IAddAccount, IAddAccountModel, IHasher, IAddAccountRepository, ILoadAccountBYEnailRepository } from './db-add-account-protocols'
 

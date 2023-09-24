@@ -1,8 +1,8 @@
-import { IController, IHttpRequest, IHttpResponse } from '../../../presentation/protocols'
+import { IController, IHttpRequest, IHttpResponse } from '@/presentation/protocols'
 import { LogControllerDecorator } from '../log-controller-decorator/log'
-import { serverError, ok } from '../../../presentation/helpers/http-helper'
-import { ILogErrorRepository } from '../../../data/protocols/db/log/log-error-respository'
-import { IAccountModel } from '../../../domain/models/account'
+import { serverError, ok } from '@/presentation/helpers/http-helper'
+import { ILogErrorRepository } from '@/data/protocols/db/log/log-error-respository'
+import { IAccountModel } from '@/domain/models/account'
 const makeLogErrorRepositoryStub = (): ILogErrorRepository => {
   class LogErrorRepositoryStub implements ILogErrorRepository {
     async logError (stack: string): Promise<void> {

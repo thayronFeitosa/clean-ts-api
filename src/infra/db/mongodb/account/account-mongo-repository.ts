@@ -2,20 +2,20 @@ import { IAddAccountRepository } from '@/data/protocols/db/account/add-account-r
 import { ILoadAccountBYEnailRepository } from '@/data/protocols/db/account/load-account-by-email-repository'
 import { ILoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 import { IUpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
-import { IAccountModel } from '@/domain/models/account'
-import { IAddAccountModel } from '@/domain/usecases/add-account'
+import { AccountModel } from '@/domain/models/account'
+import { AddAccountModel } from '@/domain/usecases/add-account'
 import { MongoHelper } from '../helpers/mongo-helper'
 
 export class AccountMongoRepository implements IAddAccountRepository, ILoadAccountBYEnailRepository, IUpdateAccessTokenRepository, ILoadAccountByTokenRepository {
-  async add (accountData: IAddAccountModel): Promise<IAccountModel> {
+  async add (accountData: AddAccountModel): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
     const result = await accountCollection.insertOne(accountData)
     return MongoHelper.map(result.ops[0])
   }
 
-  async loadByEmail (email: string): Promise<IAccountModel | null> {
+  async loadByEmail (email: string): Promise<AccountModel | null> {
     const accountCollection = await MongoHelper.getCollection('accounts')
-    const account: Promise<IAccountModel | null> = await accountCollection.findOne({ email })
+    const account: Promise<AccountModel | null> = await accountCollection.findOne({ email })
     return account !== null ? MongoHelper.map(account) : null
   }
 
@@ -30,9 +30,9 @@ export class AccountMongoRepository implements IAddAccountRepository, ILoadAccou
     })
   }
 
-  async loadByToken (token: string, role?: string): Promise<IAccountModel> {
+  async loadByToken (token: string, role?: string): Promise<AccountModel> {
     const accountCollection = await MongoHelper.getCollection('accounts')
-    const account: Promise<IAccountModel | null> = await accountCollection.findOne({
+    const account: Promise<AccountModel | null> = await accountCollection.findOne({
       accessToken: token,
       $or: [{
         role

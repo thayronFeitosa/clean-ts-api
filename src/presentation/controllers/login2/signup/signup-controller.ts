@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAddAccount, IController, IHttpRequest, IHttpResponse, IValidation, IAuthentication } from './signup-controller-protocols'
+import { IAddAccount, IController, HttpRequest, HttpResponse, IValidation, IAuthentication } from './signup-controller-protocols'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers/http-helper'
 import { EmailInUseError } from '@/presentation/errors'
 
@@ -14,7 +14,7 @@ export class SignUpController implements IController {
     this.authentication = authentication
   }
 
-  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {

@@ -1,8 +1,8 @@
-import { IController, IHttpRequest, IHttpResponse } from '@/presentation/protocols'
+import { IController, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { LogControllerDecorator } from '../log-controller-decorator/log'
 import { serverError, ok } from '@/presentation/helpers/http-helper'
 import { ILogErrorRepository } from '@/data/protocols/db/log/log-error-respository'
-import { IAccountModel } from '@/domain/models/account'
+import { AccountModel } from '@/domain/models/account'
 const makeLogErrorRepositoryStub = (): ILogErrorRepository => {
   class LogErrorRepositoryStub implements ILogErrorRepository {
     async logError (stack: string): Promise<void> {
@@ -14,19 +14,19 @@ const makeLogErrorRepositoryStub = (): ILogErrorRepository => {
 
 const makeController = (): IController => {
   class ControllerStub implements IController {
-    async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
-      return await new Promise<IHttpResponse>((resolve) => resolve(ok(makeFakeAccount())))
+    async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+      return await new Promise<HttpResponse>((resolve) => resolve(ok(makeFakeAccount())))
     }
   }
   return new ControllerStub()
 }
-interface ISutTypes {
+type SutTypes = {
   sut: LogControllerDecorator
   controllerStub: IController
   logErrorRepositoryStub: ILogErrorRepository
 }
 
-const makeSut = (): ISutTypes => {
+const makeSut = (): SutTypes => {
   const controllerStub = makeController()
   const logErrorRepositoryStub = makeLogErrorRepositoryStub()
   const sut = new LogControllerDecorator(controllerStub, logErrorRepositoryStub)
@@ -36,14 +36,14 @@ const makeSut = (): ISutTypes => {
     logErrorRepositoryStub
   }
 }
-const makeFakeAccount = (): IAccountModel => ({
+const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
 
 })
-const makeFakeRequest = (): IHttpRequest => ({
+const makeFakeRequest = (): HttpRequest => ({
   body: {
     email: 'any@mail.com',
     name: 'any_name',
@@ -52,7 +52,7 @@ const makeFakeRequest = (): IHttpRequest => ({
   }
 })
 
-const makeFakeServerError = (): IHttpResponse => {
+const makeFakeServerError = (): HttpResponse => {
   const fakeError = new Error()
   fakeError.stack = 'any_stack'
   return serverError(fakeError)

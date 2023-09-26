@@ -1,5 +1,5 @@
 import { ILogErrorRepository } from '@/data/protocols/db/log/log-error-respository'
-import { IController, IHttpRequest, IHttpResponse } from '@/presentation/protocols'
+import { IController, HttpRequest, HttpResponse } from '@/presentation/protocols'
 
 export class LogControllerDecorator implements IController {
   constructor (
@@ -10,7 +10,7 @@ export class LogControllerDecorator implements IController {
     this.logErrorRepository = logErrorRepository
   }
 
-  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const httpResponse = await this.controller.handle(httpRequest)
     if (httpResponse.statusCode === 500) {
       await this.logErrorRepository.logError(httpResponse.body.stack)

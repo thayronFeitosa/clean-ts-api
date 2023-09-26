@@ -1,14 +1,14 @@
 import { DbAuthentication } from './db-authentication'
 import {
-  IAccountModel,
-  IAuthenticationModel,
+  AccountModel,
+  AuthenticationModel,
   IHashCompare,
   ILoadAccountBYEnailRepository,
   IEncrypter,
   IUpdateAccessTokenRepository
 } from './db-authentication-protocols'
 
-const makeFakeAccount = (): IAccountModel => ({
+const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
   name: 'any_name',
   email: 'any_mail@mail.com',
@@ -18,15 +18,15 @@ const makeFakeAccount = (): IAccountModel => ({
 
 const makeLoadAccountByEmailRepository = (): ILoadAccountBYEnailRepository => {
   class LoadAccountBYEnailRepositoryStub implements ILoadAccountBYEnailRepository {
-    async loadByEmail (email: string): Promise<IAccountModel> {
+    async loadByEmail (email: string): Promise<AccountModel> {
       const account = makeFakeAccount()
-      return await new Promise<IAccountModel>((resolve) => resolve(account))
+      return await new Promise<AccountModel>((resolve) => resolve(account))
     }
   }
   return new LoadAccountBYEnailRepositoryStub()
 }
 
-const makeFakeAuthentication = (): IAuthenticationModel => {
+const makeFakeAuthentication = (): AuthenticationModel => {
   return {
     email: 'any_mail@mail.com',
     password: 'any_password'
@@ -60,7 +60,7 @@ const makeUpdateAccessTokenRepository = (): IUpdateAccessTokenRepository => {
   return new UpdateAccessTokenRepositoryStub()
 }
 
-interface SutTypes {
+type SutTypes = {
   sut: DbAuthentication
   loadAccountByEmailRepositoryStub: ILoadAccountBYEnailRepository
   hashCompareStub: IHashCompare

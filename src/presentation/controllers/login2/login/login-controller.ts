@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { IAuthentication, IHttpRequest, IHttpResponse, IController, IValidation } from './login-controller-protocols'
+import { IAuthentication, HttpRequest, HttpResponse, IController, IValidation } from './login-controller-protocols'
 import { badRequest, ok, serverError, unauthorized } from '@/presentation/helpers/http-helper'
 
 export class LoginController implements IController {
@@ -8,7 +8,7 @@ export class LoginController implements IController {
     this.authentication = authentication
   }
 
-  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const error = this.validation.validate(httpRequest.body)
       if (error) {

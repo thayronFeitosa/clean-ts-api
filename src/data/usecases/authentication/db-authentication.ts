@@ -1,4 +1,4 @@
-import { IAuthenticationModel, IHashCompare, ILoadAccountBYEnailRepository, IEncrypter, IUpdateAccessTokenRepository, IAuthentication } from './db-authentication-protocols'
+import { AuthenticationModel, IHashCompare, ILoadAccountBYEnailRepository, IEncrypter, IUpdateAccessTokenRepository, IAuthentication } from './db-authentication-protocols'
 export class DbAuthentication implements IAuthentication {
   constructor (
     private readonly loadAccountBYEnailRepository: ILoadAccountBYEnailRepository,
@@ -12,7 +12,7 @@ export class DbAuthentication implements IAuthentication {
     this.updateAccessTokenRepository = updateAccessTokenRepository
   }
 
-  async auth (authentication: IAuthenticationModel): Promise<string | null> {
+  async auth (authentication: AuthenticationModel): Promise<string | null> {
     const account = await this.loadAccountBYEnailRepository.loadByEmail(authentication.email)
     if (account != null) {
       const compareIsValid = await this.hashCompare.compare(authentication.password, account.password)

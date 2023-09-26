@@ -1,5 +1,5 @@
 import { DbAddAccount } from './db-add-account'
-import { IAccountModel, IAddAccount, IAddAccountModel, IHasher, IAddAccountRepository, ILoadAccountBYEnailRepository } from './db-add-account-protocols'
+import { IAddAccount, AddAccountModel, IHasher, IAddAccountRepository, ILoadAccountBYEnailRepository, AccountModel } from './db-add-account-protocols'
 
 const makeEncrypter = (): IHasher => {
   class HashStub implements IHasher {
@@ -12,7 +12,7 @@ const makeEncrypter = (): IHasher => {
 
 const makeAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
-    async add (account: IAddAccountModel): Promise<IAccountModel> {
+    async add (account: AddAccountModel): Promise<AccountModel> {
       const fakeAccount = makeFakeAccount()
       return await new Promise(resolve => resolve(fakeAccount))
     }
@@ -22,27 +22,27 @@ const makeAddAccountRepository = (): IAddAccountRepository => {
 
 const makeLoadAccountByEmailRepository = (): ILoadAccountBYEnailRepository => {
   class LoadAccountBYEnailRepositoryStub implements ILoadAccountBYEnailRepository {
-    async loadByEmail (email: string): Promise<IAccountModel | null> {
-      return await new Promise<IAccountModel | null>((resolve) => resolve(null))
+    async loadByEmail (email: string): Promise<AccountModel | null> {
+      return await new Promise<AccountModel | null>((resolve) => resolve(null))
     }
   }
   return new LoadAccountBYEnailRepositoryStub()
 }
 
-const makeFakeAccount = (): IAccountModel => ({
+const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'hashed_password'
 })
 
-const makeFaceAccountData = (): IAddAccountModel => ({
+const makeFaceAccountData = (): AddAccountModel => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'
 })
 
-interface SutTYpes {
+type SutTYpes = {
   sut: IAddAccount
   hashStub: IHasher
   addAccountRepositoryStub: IAddAccountRepository

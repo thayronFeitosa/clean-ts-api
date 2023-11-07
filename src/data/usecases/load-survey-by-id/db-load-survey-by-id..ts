@@ -5,7 +5,7 @@ import { ILoadSurveysById } from '@/domain/usecases/load-surveys-by-id'
 export class DbLoadSurveyById implements ILoadSurveysById {
   constructor (private readonly loadSurveyByIdepository: ILoadSurveysByIdRepository) {}
   async loadById (id: string): Promise<SurveyModel> {
-    await this.loadSurveyByIdepository.loadById(id)
-    return null
+    const survey = await this.loadSurveyByIdepository.loadById(id)
+    return survey
   }
 }

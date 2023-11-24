@@ -3,7 +3,7 @@ import { ILoadAccountBYEnailRepository } from '@/data/protocols/db/account/load-
 import { ILoadAccountByTokenRepository } from '@/data/protocols/db/account/load-account-by-token-repository'
 import { IUpdateAccessTokenRepository } from '@/data/protocols/db/account/update-access-token-repository'
 import { AccountModel } from '@/domain/models/account'
-import { AddAccountModel } from '@/domain/usecases/add-account'
+import { AddAccountModel } from '@/domain/usecases/account/add-account'
 import { MongoHelper } from '../helpers/mongo-helper'
 
 export class AccountMongoRepository implements IAddAccountRepository, ILoadAccountBYEnailRepository, IUpdateAccessTokenRepository, ILoadAccountByTokenRepository {

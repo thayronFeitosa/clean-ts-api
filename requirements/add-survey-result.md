@@ -16,4 +16,4 @@
 4. ⛔️ Retorna erro **403** se a resposta enviada pelo usuário for uma resposta inválida
 5. ⛔️ Retorna erro **500** se der erro ao tentar criar o resulado da enquete
 6. ⛔️ Retorna erro **500** se der erro ao tentar atualizar o resulado da enquete
-7. ⛔️ Retorna erro **500** se der erro ao tentar carregar a enquete
+7. ✅ Retorna erro **500** se der erro ao tentar carregar a enquete

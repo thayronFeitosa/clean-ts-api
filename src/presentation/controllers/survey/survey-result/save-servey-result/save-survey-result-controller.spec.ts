@@ -19,6 +19,9 @@ const makeFakeSurvey = (): SurveyModel => ({
 const makeFakeRequest = (): HttpRequest => ({
   params: {
     surveyId: 'any_survey_id'
+  },
+  body: {
+    answer: 'any_answer'
   }
 })
 
@@ -70,5 +73,20 @@ describe('SaveSurveyResult Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest())
 
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return 403 if invalid answer is provided', async () => {
+    const { sut } = makeSut()
+
+    const makeRequest = {
+      ...makeFakeRequest(),
+      body: {
+        answer: 'wrong_answer'
+      }
+    }
+
+    const httpResponse = await sut.handle(makeRequest)
+
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))
   })
 })

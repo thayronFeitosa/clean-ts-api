@@ -1,5 +1,5 @@
 import { DbAddAccount } from './db-add-account'
-import { IAddAccount, AddAccountModel, IHasher, IAddAccountRepository, ILoadAccountBYEnailRepository, AccountModel } from './db-add-account-protocols'
+import { IAddAccount, AddAccountParams, IHasher, IAddAccountRepository, ILoadAccountBYEnailRepository, AccountModel } from './db-add-account-protocols'
 
 const makeEncrypter = (): IHasher => {
   class HashStub implements IHasher {
@@ -12,7 +12,7 @@ const makeEncrypter = (): IHasher => {
 
 const makeAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
-    async add (account: AddAccountModel): Promise<AccountModel> {
+    async add (account: AddAccountParams): Promise<AccountModel> {
       const fakeAccount = makeFakeAccount()
       return await new Promise(resolve => resolve(fakeAccount))
     }
@@ -36,7 +36,7 @@ const makeFakeAccount = (): AccountModel => ({
   password: 'hashed_password'
 })
 
-const makeFaceAccountData = (): AddAccountModel => ({
+const makeFaceAccountData = (): AddAccountParams => ({
   name: 'valid_name',
   email: 'valid_email@mail.com',
   password: 'valid_password'

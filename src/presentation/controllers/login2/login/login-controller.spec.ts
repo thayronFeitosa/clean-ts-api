@@ -1,25 +1,10 @@
 import { LoginController } from './login-controller'
-import { IAuthentication, HttpRequest, IValidation, AuthenticationParams } from './login-controller-protocols'
+import { IAuthentication, HttpRequest, IValidation } from './login-controller-protocols'
 import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, unauthorized, ok } from '@/presentation/helpers/http-helper'
+import { throwsError } from '@/domain/test'
+import { mockAuthentication, mockValidation } from '@/presentation/test'
 
-const makeValidation = (): IValidation => {
-  class ValidationStub implements IValidation {
-    validate (input: any): Error | null {
-      return null
-    }
-  }
-  return new ValidationStub()
-}
-
-const makeAuthentication = (): IAuthentication => {
-  class AuthenticationStub implements IAuthentication {
-    async auth (authentication: AuthenticationParams): Promise<string> {
-      return await new Promise<string>(resolve => resolve('any_token'))
-    }
-  }
-  return new AuthenticationStub()
-}
 const makeFakeRequest = (): HttpRequest => ({
   body: {
     email: 'any_email@mail.com',
@@ -34,8 +19,8 @@ type SutTypes = {
 }
 
 const makeSut = (): SutTypes => {
-  const authenticationStub = makeAuthentication()
-  const validationStub = makeValidation()
+  const authenticationStub = mockAuthentication()
+  const validationStub = mockValidation()
   const sut = new LoginController(authenticationStub, validationStub)
   return {
     sut,
@@ -64,7 +49,7 @@ describe('Login controller', () => {
 
   test('Should return 500 if Authentication throws', async () => {
     const { sut, authenticationStub } = makeSut()
-    jest.spyOn(authenticationStub, 'auth').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(authenticationStub, 'auth').mockImplementationOnce(throwsError)
 
     const httpResponse = await sut.handle(makeFakeRequest())
 

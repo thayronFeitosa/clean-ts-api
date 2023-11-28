@@ -3,15 +3,8 @@
 import { ValidationComposite } from './validation-composite'
 import { MissingParamError } from '@/presentation/errors'
 import { IValidation } from '@/presentation/protocols/IValidation'
+import { makeValidationStub } from '@/validation/test'
 
-const makeValidationStub = (): IValidation => {
-  class ValidationStub implements IValidation {
-    validate (input: any): Error | null {
-      return null
-    }
-  }
-  return new ValidationStub()
-}
 type SutTypes = {
   sut: ValidationComposite
   validationStubs: IValidation[]

@@ -1,49 +1,16 @@
-import { SurveyModel } from '@/domain/models/survey'
 import { ILoadSurveysRepository } from '@/data/protocols/db/survey/load-survey-repository'
 import { DbLoadSurvey } from './db-load-surveys'
+import { throwsError, mockSurveyModels } from '@/domain/test'
 import MockDate from 'mockdate'
+import { mockLoadSurveysRepositoryStub } from '@/data/test'
 
-const makeFakeSurveys = (): SurveyModel[] => {
-  return [{
-    id: 'any_id',
-    question: 'any_question',
-    answers: [{
-      answer: 'any_answer',
-      image: 'any_image'
-    }, {
-      answer: 'other_answer'
-    }],
-    date: new Date()
-
-  }, {
-    id: 'other_id',
-    question: 'other_question',
-    answers: [{
-      answer: 'other_answer',
-      image: 'other_image'
-    }, {
-      answer: 'other_answer'
-    }],
-    date: new Date()
-
-  }]
-}
-const makeLoadSurveysRepositoryStub = (): ILoadSurveysRepository => {
-  class LoadSurveysRepositoryStub implements ILoadSurveysRepository {
-    async loadAll (): Promise<SurveyModel[]> {
-      return await new Promise((resolve) => resolve(makeFakeSurveys()))
-    }
-  }
-
-  return new LoadSurveysRepositoryStub()
-}
 type SutTypes = {
   loadSurveysRepositoryStub: ILoadSurveysRepository
   sut: DbLoadSurvey
 }
 
 const makeSut = (): SutTypes => {
-  const loadSurveysRepositoryStub = makeLoadSurveysRepositoryStub()
+  const loadSurveysRepositoryStub = mockLoadSurveysRepositoryStub()
   const sut = new DbLoadSurvey(loadSurveysRepositoryStub)
   return {
     loadSurveysRepositoryStub,
@@ -68,12 +35,12 @@ describe('DbLoadSurvey', () => {
   test('Should return a list of Surveys on success', async () => {
     const { sut } = makeSut()
     const surveys = await sut.load()
-    expect(surveys).toEqual(makeFakeSurveys())
+    expect(surveys).toEqual(mockSurveyModels())
   })
 
   test('Should throw if LoadSurveysRepository throws', async () => {
     const { sut, loadSurveysRepositoryStub } = makeSut()
-    jest.spyOn(loadSurveysRepositoryStub, 'loadAll').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
+    jest.spyOn(loadSurveysRepositoryStub, 'loadAll').mockImplementationOnce(throwsError)
     const promise = sut.load()
     await expect(promise).rejects.toThrow()
   })

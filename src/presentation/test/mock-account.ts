@@ -26,7 +26,7 @@ export const mockValidation = (): IValidation => {
 export const mockAddAccount = (): IAddAccount => {
   class AddAccountStub implements IAddAccount {
     async add (account: AddAccountParams): Promise<AccountModel | undefined> {
-      return await new Promise(resolve => resolve(mockFakeAccountModel()))
+      return await Promise.resolve(mockFakeAccountModel())
     }
   }
   return new AddAccountStub()

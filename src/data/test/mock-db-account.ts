@@ -8,7 +8,7 @@ export const mockAddAccountRepository = (): IAddAccountRepository => {
   class AddAccountRepositoryStub implements IAddAccountRepository {
     async add (account: AddAccountParams): Promise<AccountModel> {
       const fakeAccount = mockFakeAccountModel()
-      return await new Promise(resolve => resolve(fakeAccount))
+      return await Promise.resolve(fakeAccount)
     }
   }
   return new AddAccountRepositoryStub()
@@ -26,7 +26,7 @@ export const mockLoadAccountByEmailRepository = (): ILoadAccountBYEnailRepositor
 export const mockLoadAccountByTokenRepository = (): ILoadAccountByTokenRepository => {
   class LoadAccountByTokenRepositoryStub implements ILoadAccountByTokenRepository {
     async loadByToken (token: string, role?: string): Promise<AccountModel> {
-      return await new Promise(resolve => resolve(mockFakeAccountModel()))
+      return await Promise.resolve(mockFakeAccountModel())
     }
   }
   return new LoadAccountByTokenRepositoryStub()

@@ -30,6 +30,7 @@
     "@types/mongodb": "^4.0.7",
     "@types/node": "^18.6.4",
     "@types/supertest": "^2.0.12",
+    "@types/swagger-ui-express": "^4.1.6",
     "@types/validator": "^13.7.5",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "coveralls": "^3.1.1",
@@ -56,12 +57,13 @@
     "module-alias": "^2.2.3",
     "mongodb": "^3.5.1",
     "nodemon": "^2.0.20",
+    "swagger-ui-express": "^5.0.0",
     "validator": "^13.7.0"
   },
   "engines": {
     "node": "16.x"
   },
   "_moduleAliases": {
-    "@"      : "dist"
+    "@": "dist"
   }
 }

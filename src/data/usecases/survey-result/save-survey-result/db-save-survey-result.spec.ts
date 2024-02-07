@@ -1,11 +1,11 @@
-import { mockFakeSurveyResultModel, mockFakeSurveyResultData, throwsError } from '@/domain/test'
+import { mockFakeSurveyResultData, mockFakeSurveyResultModel, throwsError } from '@/domain/test'
 import { DbSaveSurveyResult } from './db-save-survey-result'
-import { ISaveSurveyResultRepository, SaveSurveyResultParams } from './db-save-survey-result-protocols'
+import { ISaveSurveyResultRepository, SaveSurveyResultParams, SurveyResultModel } from './db-save-survey-result-protocols'
 import MockDate from 'mockdate'
 
 const mockSaveSurveyResultRepository = (): ISaveSurveyResultRepository => {
   class SaveSurveyResultRepositoryStub implements ISaveSurveyResultRepository {
-    async save (data: SaveSurveyResultParams): Promise<SaveSurveyResultParams> {
+    async save (data: SaveSurveyResultParams): Promise<SurveyResultModel> {
       return await new Promise((resolve) => resolve(mockFakeSurveyResultModel()))
     }
   }
